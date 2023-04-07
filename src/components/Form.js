@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './styles.css';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const Form = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+
   const [locations, setLocations] = useState('');
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
@@ -23,10 +26,8 @@ const Form = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Create a FormData object to store the form data
     const formData = new FormData();
 
-    // Append each form input to the FormData object
     formData.append('title', title);
     formData.append('description', description);
     formData.append('locations', locations);
@@ -42,31 +43,28 @@ const Form = () => {
     formData.append('contactDetails', contactDetails);
     formData.append('cancellationPolicy', cancellationPolicy);
 
-    // Append the selected file(s) to the FormData object
     if (image !== null) {
       formData.append('image', image);
     }
 
     try {
-      // Send a POST request to the server with the FormData object as the body
       const response = await axios.post('/api/products', formData);
 
-      // TODO: Handle successful response (e.g. redirect to product list page)
     } catch (error) {
-      // TODO: Handle error (e.g. display error message)
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
+      <h1 style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>Trek Form</h1>
       <label>
         Title:
         <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
       </label>
       <label>
-        Description:
-        <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
-      </label>
+  Description:
+  < ReactQuill value={description} onChange={setDescription} />
+</label>
       <label>
         Locations:
         <input type="text" value={locations} onChange={(e) => setLocations(e.target.value)} />

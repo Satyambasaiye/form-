@@ -1,11 +1,14 @@
 import React from 'react';
 import Form from './components/Form';
+import AddTeamForm from './components/AddTeamForm';
+
 
 function App() {
   return (
     <div>
-      <h1 style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>Trek form </h1>
       <Form />
+      <br></br>
+      <AddTeamForm/>
     </div>
     
   );
