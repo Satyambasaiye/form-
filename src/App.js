@@ -1,11 +1,10 @@
 import React from 'react';
-import BookNowModal from './components/BookNowModal';
+import Form from './components/Form';
 
 function App() {
   return (
     <div>
-      <h1>Welcome to My Website</h1>
-      <BookNowModal />
+      <Form />
     </div>
     
   );
