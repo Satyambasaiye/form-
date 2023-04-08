@@ -60,7 +60,7 @@ const AddTeamForm = () => {
         <select value={accessLevel} onChange={(e) => setAccessLevel(e.target.value)}>
           <option value="">Select Access Level</option>
           <option value="admin">Admin</option>
-          <option value="user">User</option>
+          <option value="Team">Team</option>
         </select>
       </label>
       <button type="submit">Submit</button>

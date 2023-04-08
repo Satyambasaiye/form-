@@ -4,6 +4,22 @@ import './styles.css';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
+const modules = {
+  toolbar: [
+    [{ 'header': '1'}, {'header': '2'}, {'font': []}],
+    [{size: []}],
+    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+    [{'list': 'ordered'}, {'list': 'bullet'},     {'indent': '-1'}, {'indent': '+1'}],
+    ['link', 'image', 'video'],
+    ['clean']
+  ],
+  clipboard: {
+    matchVisual: false,
+  },
+}
+
+const formats = [  'header', 'font', 'size',  'bold', 'italic', 'underline', 'strike', 'blockquote',  'list', 'bullet', 'indent',  'link', 'image', 'video']
+
 const Form = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -18,93 +34,152 @@ const Form = () => {
   const [thingsToCarry, setThingsToCarry] = useState('');
   const [pickUpPoint, setPickUpPoint] = useState('');
   const [includes, setIncludes] = useState('');
-  const [excludes, setExcludes] = useState('');
   const [contactDetails, setContactDetails] = useState('');
   const [cancellationPolicy, setCancellationPolicy] = useState('');
 
+  const handleDescriptionChange = (value) => {
+    setDescription(value);
+  }
+
+  const handleItineraryChange = (value) => {
+    setItinerary(value);
+  }
+
+  const handleThingsToCarryChange = (value) => {
+    setThingsToCarry(value);
+  }
+
+  const handlePickUpPointChange = (value) => {
+    setPickUpPoint(value);
+  }
+
+  const handleIncludesChange = (value) => {
+    setIncludes(value);
+  }
+
+  
+
+  const handleContactDetailsChange = (value) => {
+    setContactDetails(value);
+  }
+
+  const handleCancellationPolicyChange = (value) => {
+    setCancellationPolicy(value);
+  }
+
+  const handleChange = (value) => {
+    setDescription(value);
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const formData = new FormData();
+    const data = {
+      title,
+      description,
+      locations,
+      fromDate,
+      toDate,
+      actualPrice,
+      discountedPrice,
+      itinerary,
+      thingsToCarry,
+      pickUpPoint,
+      includes,
+      contactDetails,
+      cancellationPolicy
+    }
 
-    formData.append('title', title);
-    formData.append('description', description);
-    formData.append('locations', locations);
-    formData.append('fromDate', fromDate);
-    formData.append('toDate', toDate);
-    formData.append('actualPrice', actualPrice);
-    formData.append('discountedPrice', discountedPrice);
-    formData.append('itinerary', itinerary);
-    formData.append('thingsToCarry', thingsToCarry);
-    formData.append('pickUpPoint', pickUpPoint);
-    formData.append('includes', includes);
-    formData.append('excludes', excludes);
-    formData.append('contactDetails', contactDetails);
-    formData.append('cancellationPolicy', cancellationPolicy);
-
-    if (image !== null) {
-      formData.append('image', image);
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
     }
 
     try {
-      const response = await axios.post('/api/products', formData);
+      const response = await axios.post('/api/products', data, config);
 
     } catch (error) {
     }
   };
 
+
   return (
-    <form onSubmit={handleSubmit}>
-      <h1 style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>Trek Form</h1>
-      <label>
-        Title:
-        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-      </label>
-      <label>
-  Description:
-  < ReactQuill value={description} onChange={setDescription} />
-</label>
-      <label>
-        Locations:
-        <input type="text" value={locations} onChange={(e) => setLocations(e.target.value)} />
-      </label>
-      <label>
-        From Date:
-        <input type="date" value={fromDate} onChange={(e) => setFromDate(e.target.value)} />
-      </label>
-      <label>
-        To Date:
-        <input type="date" value={toDate} onChange={(e) => setToDate(e.target.value)} />
-      </label>
-      <label>
-        Actual Price:
-        <input type="number" value={actualPrice} onChange={(e) => setActualPrice(e.target.value)} />
-      </label>
-      <label>
-        Discounted Price:
-        <input type="number" value={discountedPrice} onChange={(e) => setDiscountedPrice(e.target.value)} />
-      </label>
-      <label>
-      Itinerary:
-      <textarea value={itinerary} onChange={(e) => setItinerary(e.target.value)} />
+      <form onSubmit={handleSubmit}>
+    <h1 style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>Trek Form</h1>
+    <label>
+      Title:
+      <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
     </label>
-      <label>
-      Things to Carry:
-      <textarea value={thingsToCarry} onChange={(e) => setThingsToCarry(e.target.value)} />
+    <div className="form-container">
+      <label className="form-label">Description:</label>
+      <ReactQuill 
+        value={description} 
+        onChange={handleChange}
+        modules={modules}
+        formats={formats}
+        theme="snow"
+        placeholder="Enter description here"
+      />
+    </div>
+    <label>
+      Locations:
+      <input type="text" value={locations} onChange={(e) => setLocations(e.target.value)} />
     </label>
     <label>
-      Pick Up Point:
-      <input type="text" value={pickUpPoint} onChange={(e) => setPickUpPoint(e.target.value)} />
+      From Date:
+      <input type="date" value={fromDate} onChange={(e) => setFromDate(e.target.value)} />
     </label>
     <label>
-      Includes:
+      To Date:
+      <input type="date" value={toDate} onChange={(e) => setToDate(e.target.value)} />
+    </label>
+    <label>
+      Actual Price:
+      <input type="number" value={actualPrice} onChange={(e) => setActualPrice(e.target.value)} />
+    </label>
+    <label>
+      Discounted Price:
+      <input type="number" value={discountedPrice} onChange={(e) => setDiscountedPrice(e.target.value)} />
+    </label>
+    <div className="form-container">
+      <label className="form-label">Itinerary:</label>
+      <ReactQuill 
+        value={itinerary} 
+        onChange={handleItineraryChange}
+        modules={modules}
+        formats={formats}
+        theme="snow"
+        placeholder="Enter itinerary here"
+      />
+    </div>
+    <div className="form-container">
+      <label className="form-label">Things to Carry:</label>
+      <ReactQuill 
+        value={thingsToCarry} 
+        onChange={handleThingsToCarryChange}
+        modules={modules}
+        formats={formats}
+        theme="snow"
+        placeholder="Enter things to carry here"
+      />
+    </div>
+    <div className="form-container">
+      <label className="form-label">Pick Up Point:</label>
+      <ReactQuill 
+        value={pickUpPoint} 
+        onChange={handlePickUpPointChange}
+        modules={modules}
+        formats={formats}
+        theme="snow"
+        placeholder="Enter pick up point here"
+      />
+    </div>
+    <label>
+     Cost Includes:
       <textarea value={includes} onChange={(e) => setIncludes(e.target.value)} />
     </label>
-    <label>
-      Excludes:
-      <textarea value={excludes} onChange={(e) => setExcludes(e.target.value)} />
-    </label>
+    
     <label>
       Contact Details:
       <input type="text" value={contactDetails} onChange={(e) => setContactDetails(e.target.value)} />
