@@ -142,28 +142,8 @@ const Form = () => {
       Discounted Price:
       <input type="number" value={discountedPrice} onChange={(e) => setDiscountedPrice(e.target.value)} />
     </label>
-    <div className="form-container">
-      <label className="form-label">Itinerary:</label>
-      <ReactQuill 
-        value={itinerary} 
-        onChange={handleItineraryChange}
-        modules={modules}
-        formats={formats}
-        theme="snow"
-        placeholder="Enter itinerary here"
-      />
-    </div>
-    <div className="form-container">
-      <label className="form-label">Things to Carry:</label>
-      <ReactQuill 
-        value={thingsToCarry} 
-        onChange={handleThingsToCarryChange}
-        modules={modules}
-        formats={formats}
-        theme="snow"
-        placeholder="Enter things to carry here"
-      />
-    </div>
+   
+   
     <div className="form-container">
       <label className="form-label">Pick Up Point:</label>
       <ReactQuill 
@@ -172,14 +152,21 @@ const Form = () => {
         modules={modules}
         formats={formats}
         theme="snow"
-        placeholder="Enter pick up point here"
+        placeholder="Enter pick up point here "
       />
     </div>
+    <label>
+      Itinerary:
+      <textarea value={itinerary} onChange={(e) => setItinerary(e.target.value)} />
+    </label>
+    <label>
+       Things to Carry:
+      <textarea value={thingsToCarry} onChange={(e) => setThingsToCarry(e.target.value)} />
+    </label>
     <label>
      Cost Includes:
       <textarea value={includes} onChange={(e) => setIncludes(e.target.value)} />
     </label>
-    
     <label>
       Contact Details:
       <input type="text" value={contactDetails} onChange={(e) => setContactDetails(e.target.value)} />
